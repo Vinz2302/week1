@@ -18,7 +18,7 @@ const getUsers = (request, response) => {
 const getUserById = (request, response) => {
   const id = parseInt(request.params.id)
 
-  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+  pool.query('SELECT * FROM users WHERE id = $1', [student_id], (error, results) => {
     if (error) {
       throw error
     }
@@ -27,9 +27,9 @@ const getUserById = (request, response) => {
 }
 
 const createUser = (request, response) => {
-  const { name, email } = request.body
+  const { name, age, gender } = request.body
 
-  pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
+  pool.query('INSERT INTO users (name, age, gender) VALUES ($1, $2, $3)', [name, age, gender], (error, results) => {
     if (error) {
       throw error
     }
@@ -38,29 +38,29 @@ const createUser = (request, response) => {
 }
 
 const updateUser = (request, response) => {
-  const id = parseInt(request.params.id)
-  const { name, email } = request.body
+  const student_id = parseInt(request.params.id)
+  const { name, age, gender } = request.body
 
   pool.query(
-    'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-    [name, email, id],
+    'UPDATE users SET name = $1, age = $2, gender = $3 WHERE id = $4',
+    [name, age, gender, student_id],
     (error, results) => {
       if (error) {
         throw error
       }
-      response.status(200).send(`User modified with ID: ${id}`)
+      response.status(200).send(`User modified with ID: ${student_id}`)
     }
   )
 }
 
 const deleteUser = (request, response) => {
-  const id = parseInt(request.params.id)
+  const student_id = parseInt(request.params.id)
 
-  pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
+  pool.query('DELETE FROM users WHERE id = $1', [student_id], (error, results) => {
     if (error) {
       throw error
     }
-    response.status(200).send(`User deleted with ID: ${id}`)
+    response.status(200).send(`User deleted with ID: ${student_id}`)
   })
 }
 
