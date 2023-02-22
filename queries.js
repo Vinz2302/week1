@@ -7,7 +7,7 @@ const pool = new Pool({
   port: 5432,
 })
 const getUsers = (request, response) => {
-  pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+  pool.query('SELECT * FROM users ORDER BY student_id ASC', (error, results) => {
     if (error) {
       throw error
     }
@@ -16,9 +16,9 @@ const getUsers = (request, response) => {
 }
 
 const getUserById = (request, response) => {
-  const id = parseInt(request.params.id)
+  const student_id = parseInt(request.params.id)
 
-  pool.query('SELECT * FROM users WHERE id = $1', [student_id], (error, results) => {
+  pool.query('SELECT * FROM users WHERE student_id = $1', [student_id], (error, results) => {
     if (error) {
       throw error
     }
@@ -42,7 +42,7 @@ const updateUser = (request, response) => {
   const { name, age, gender } = request.body
 
   pool.query(
-    'UPDATE users SET name = $1, age = $2, gender = $3 WHERE id = $4',
+    'UPDATE users SET name = $1, age = $2, gender = $3 WHERE student_id = $4',
     [name, age, gender, student_id],
     (error, results) => {
       if (error) {
@@ -56,7 +56,7 @@ const updateUser = (request, response) => {
 const deleteUser = (request, response) => {
   const student_id = parseInt(request.params.id)
 
-  pool.query('DELETE FROM users WHERE id = $1', [student_id], (error, results) => {
+  pool.query('DELETE FROM users WHERE student_id = $1', [student_id], (error, results) => {
     if (error) {
       throw error
     }
